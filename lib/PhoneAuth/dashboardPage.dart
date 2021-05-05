@@ -1,3 +1,4 @@
+import 'package:Task/PhoneAuth/AuthService.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -13,7 +14,9 @@ class _DashboardPageState extends State<DashboardPage> {
         children: [
           Text('Welcome'),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              AuthService().signOut();
+            },
             child: Text('SignOut'),
           )
         ],
