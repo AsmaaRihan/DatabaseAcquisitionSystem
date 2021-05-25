@@ -57,6 +57,12 @@ class _MainPageState extends State<MainPage> {
           ),
           MaterialButton(
             onPressed: () {
+              analyticsService.testAllEventTypes();
+            },
+            child: const Text('Set All Evnet Types'),
+          ),
+          MaterialButton(
+            onPressed: () {
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Page2()));
             },
