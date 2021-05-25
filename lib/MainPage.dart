@@ -33,16 +33,27 @@ class _MainPageState extends State<MainPage> {
           ),
           MaterialButton(
             onPressed: () {
-              // analyticsService.logLoggin();
+              analyticsService.logLoggin();
             },
             child: const Text('Test logLoggin'),
           ),
           MaterialButton(
             onPressed: () {
-              analyticsService.setUserProperties(
-                  userId: '12345678901234567890123456789');
+              analyticsService.logPostCreated();
             },
-            child: const Text('Test setUserId'),
+            child: const Text('Log Post'),
+          ),
+          MaterialButton(
+            onPressed: () {
+              analyticsService.setScreenName(name: 'Main  2Page');
+            },
+            child: const Text('Set Screen Name'),
+          ),
+          MaterialButton(
+            onPressed: () {
+              analyticsService.setUserId();
+            },
+            child: const Text('Set User ID'),
           ),
           MaterialButton(
             onPressed: () {

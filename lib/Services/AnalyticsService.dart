@@ -3,19 +3,13 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 
 class AnalyticsService {
-  final FirebaseAnalytics _anylytics = new FirebaseAnalytics();
+  final FirebaseAnalytics _analytics = new FirebaseAnalytics();
   FirebaseAnalyticsObserver getAnalyticsOberver() =>
-      FirebaseAnalyticsObserver(analytics: _anylytics);
-
-  Future setUserProperties({@required String userId}) async {
-    await _anylytics.setUserId(userId);
-    await _anylytics.setUserProperty(
-        name: 'UserTesting', value: 'Testing User Proprrty');
-    print('setUserProperties succeeded');
-  }
+      FirebaseAnalyticsObserver(analytics: _analytics);
 
   Future<void> sendAnalyticsEvent(int number, name) async {
-    await _anylytics
+    //tested
+    await _analytics
         .logEvent(
           name:
               'Test_Analytics', // name that will be show in the debuge console
@@ -28,35 +22,39 @@ class AnalyticsService {
         )
         .whenComplete(() => print('logEvent succeeded'))
         .catchError((e) => print('Error in LogEvent: $e'));
-    setScreenName(name);
   }
-
-  Future setScreenName(String name) async {
-    await _anylytics
-        .setCurrentScreen(
-          screenName: name,
-        )
-        .whenComplete(() => print('SetCurrentScreen succeeded'));
-  }
-
-  // Future<void> setScreenName({@required String name}) async {
-  //   await _anylytics
-  //       .setCurrentScreen(screenName: name)
-  //       .then((value) => print('Name is $name'));
-  // }
 
   Future logLoggin() async {
-    await _anylytics.logLogin(loginMethod: 'email');
+    //tested
+    await _analytics.logLogin(loginMethod: 'email');
+    print('loggingEvent');
   }
 
-  // Future logSignUp() async {
-  //   await _anylytics.logSignUp(signUpMethod: 'email');
-  // }
+  Future logPostCreated() async {
+    //tested
+    await _analytics
+        .logEvent(name: 'creatingPost', parameters: {'has_image': true});
+    print('post');
+  }
 
-  // Future logPostCreated() async {
-  //   await _anylytics
-  //       .logEvent(name: 'creat_Post', parameters: {'has_image': true});
-  // }
+  Future<void> setScreenName({@required String name}) async {
+    // sets the firebase screen name in the Event
+    await _analytics
+        .setCurrentScreen(screenName: name)
+        .then((value) => print('Name is $name'));
+    print('Set Screen Name');
+  }
+
+  Future logSignUp() async {
+    await _analytics.logSignUp(signUpMethod: 'email');
+  }
+
+  Future<void> setUserId() async {
+    await _analytics.setUserId('1856474856534654');
+    await _analytics.setUserProperty(name: 'TestIsWorking', value: 'OK');
+    print('setUserId succeeded');
+    print('Set User Id');
+  }
 
   //  Navigator.of(context).push(MaterialPageRoute(
   //       builder: (context) => HomeView(),
