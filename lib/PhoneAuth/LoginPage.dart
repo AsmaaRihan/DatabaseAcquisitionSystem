@@ -75,9 +75,12 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> verifyPhone(phone) async {
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
       this.verficationId = verId;
+      print('AutoRet $verId');
     };
     final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
       this.verficationId = verId;
+      print('smsCodeSent $verId');
+
       setState(() {
         this.codeSent = true;
       });

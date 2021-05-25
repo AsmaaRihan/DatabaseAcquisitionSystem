@@ -1,1 +1,6 @@
-keytool -list -v -keystore "USERPROFILE\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+
+cd Users\yourname\.android 
+
+then wriet this
+
+keytool -list -v -keystore "C:\Users\yourname\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
