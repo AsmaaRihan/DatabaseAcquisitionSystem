@@ -5,9 +5,10 @@ import 'LoginPage.dart';
 
 class AuthService {
   handleAuth() {
-    return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (BuildContext ctx, snapshot) {
+    return FutureBuilder(
+      builder:
+          //  stream: FirebaseAuth.instance.authStateChanges(),
+          (BuildContext ctx, snapshot) {
         if (snapshot.hasData) {
           return DashboardPage();
         } else {

@@ -1,3 +1,4 @@
+import 'package:Task/PhoneAuth/phoneEnteryItem.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'AuthService.dart';
@@ -21,88 +22,35 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
+      appBar: AppBar(
+        title: Text('Database Acquisiton System'),
+      ),
+      backgroundColor: Colors.blueGrey,
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 18.0),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Enter Your Phone Number'),
-                onChanged: (val) {
-                  print('Phone ${val.trim()}');
-                  this.phone = val.trim();
-                },
-                keyboardType: TextInputType.phone,
-              ),
+            Text(
+              'Welcome!',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            codeSent
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 18.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Enter OTP'),
-                      onChanged: (val) {
-                        this.smsCode = val;
-                      },
-                      keyboardType: TextInputType.phone,
-                    ),
-                  )
-                : Container(),
-            RaisedButton(
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .3,
+            ),
+            TextButton(
               onPressed: () {
-                codeSent
-                    ? AuthService().signInWithOTP(smsCode, verficationId)
-                    : verifyPhone(phone);
+                Navigator.of(context).pushNamed(PhoneEnteryScreen.routeName);
               },
-              child: codeSent ? Text('Login') : Text("Verify"),
-              color: Colors.blue,
-              textColor: Colors.white,
-            ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black)),
+              child: Text(
+                'Start To Register your Data ',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            )
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> verifyPhone(phone) async {
-    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
-      this.verficationId = verId;
-      print('AutoRet $verId');
-    };
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
-      this.verficationId = verId;
-      print('smsCodeSent $verId');
-
-      setState(() {
-        this.codeSent = true;
-      });
-    };
-    final PhoneVerificationCompleted verifiedSuccess =
-        (AuthCredential authResult) {
-      AuthService().signIn(authResult);
-      print('verfied');
-    };
-
-    final PhoneVerificationFailed verifiedFailed =
-        (FirebaseAuthException authException) {
-      print('Error ${authException.message}');
-    };
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: this.phone,
-      codeSent: smsCodeSent,
-      codeAutoRetrievalTimeout: autoRetrieve,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: verifiedSuccess,
-      verificationFailed: verifiedFailed,
     );
   }
 }
